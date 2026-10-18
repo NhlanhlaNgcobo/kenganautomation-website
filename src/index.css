@@ -366,14 +366,25 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .hero-glow { animation: glowDrift 18s ease-in-out infinite; }
 
 /* ---- Scroll reveals ----
-   Initial hidden state only; GSAP ScrollTrigger (useScrollReveal) animates
-   these in and owns the timing. Reduced-motion is handled in the hook + below. */
-.fade-up, .reveal { opacity: 0; transform: translateY(28px); }
-.reveal-left { opacity: 0; transform: translateX(-36px); }
-.reveal-right { opacity: 0; transform: translateX(36px); }
-.reveal-scale { opacity: 0; transform: scale(0.95); }
-/* legacy delay classes kept as harmless no-ops (stagger is handled by GSAP) */
-.delay-100, .delay-200, .delay-300, .delay-400, .delay-500 {}
+   useScrollReveal adds `.visible` when the element enters the viewport; the eased
+   transition runs here. Reduced-motion is handled in the hook + the media query. */
+.fade-up, .reveal, .reveal-left, .reveal-right, .reveal-scale {
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.fade-up, .reveal { transform: translateY(28px); }
+.reveal-left { transform: translateX(-36px); }
+.reveal-right { transform: translateX(36px); }
+.reveal-scale { transform: scale(0.95); }
+.fade-up.visible, .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible {
+  opacity: 1; transform: none; will-change: auto;
+}
+.delay-100.visible { transition-delay: 90ms; }
+.delay-200.visible { transition-delay: 180ms; }
+.delay-300.visible { transition-delay: 270ms; }
+.delay-400.visible { transition-delay: 360ms; }
+.delay-500.visible { transition-delay: 450ms; }
 
 /* ---- Infinite logo marquee ---- */
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -388,6 +399,131 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 /* ---- Floating WhatsApp button ---- */
 @keyframes waBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 .wa-float { animation: waBob 3.4s ease-in-out infinite; }
+
+/* ============================================================
+   Product demos — the automation workflow + the AI chatbot
+   ============================================================ */
+
+/* Workflow: nodes connected by a path that lights up as it runs. */
+.wf {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 32px 26px;
+  box-shadow: var(--shadow);
+}
+.wf-node {
+  flex: 1 1 0;
+  min-width: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 7px;
+}
+.wf-icon {
+  position: relative;
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--paper-2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.wf-icon-done { background: var(--flow); color: var(--ink); border-color: var(--flow); }
+.wf-ring {
+  position: absolute; inset: -4px;
+  border-radius: 18px;
+  border: 2px solid var(--flow);
+  box-shadow: 0 0 0 5px var(--flow-soft);
+  pointer-events: none;
+}
+.wf-title { font-family: var(--display); font-weight: 700; font-size: 1rem; color: var(--ink); }
+.wf-sub { font-family: var(--mono); font-size: 0.72rem; color: var(--stone); }
+.wf-link {
+  flex: 1 1 auto; min-width: 20px;
+  height: 2px; margin-top: 27px;
+  background: var(--line);
+  border-radius: 2px;
+  position: relative;
+}
+.wf-fill { position: absolute; inset: 0; background: var(--flow); border-radius: 2px; }
+
+/* Chatbot: a WhatsApp-style conversation that types itself out. */
+.cb {
+  background: var(--ink-700);
+  border: 1px solid var(--line-ink);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  max-width: 430px;
+  width: 100%;
+}
+.cb-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  background: var(--ink);
+  border-bottom: 1px solid var(--line-ink);
+}
+.cb-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--flow); color: var(--ink);
+  font-family: var(--display); font-weight: 800; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.cb-name { color: #fff; font-weight: 700; font-size: 0.98rem; }
+.cb-status { color: var(--mist); font-size: 0.74rem; display: flex; align-items: center; gap: 7px; }
+.cb-online { width: 7px; height: 7px; border-radius: 50%; background: var(--flow); display: inline-block; }
+.cb-body {
+  padding: 18px 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  min-height: 316px; justify-content: flex-end;
+}
+.cb-msg {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.92rem; line-height: 1.45;
+}
+.cb-msg.ai {
+  align-self: flex-start;
+  background: var(--ink); color: #fff;
+  border: 1px solid var(--line-ink);
+  border-bottom-left-radius: 5px;
+}
+.cb-msg.me {
+  align-self: flex-end;
+  background: var(--flow); color: var(--ink); font-weight: 500;
+  border-bottom-right-radius: 5px;
+}
+.cb-typing {
+  align-self: flex-start;
+  display: none; align-items: center; gap: 4px;
+  padding: 13px 16px;
+  background: var(--ink); border: 1px solid var(--line-ink);
+  border-radius: 16px; border-bottom-left-radius: 5px;
+}
+.cb-typing span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--mist); display: inline-block;
+  animation: cbDot 1.2s infinite ease-in-out;
+}
+.cb-typing span:nth-child(2) { animation-delay: 0.15s; }
+.cb-typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes cbDot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+@media (max-width: 620px) {
+  .wf { flex-direction: column; align-items: stretch; padding: 24px 20px; }
+  .wf-node { flex-direction: row; align-items: center; text-align: left; gap: 14px; }
+  .wf-title, .wf-sub { text-align: left; }
+  .wf-link { width: 2px; height: 24px; margin: 4px 0 4px 27px; align-self: flex-start; }
+}
 
 /* ---- Responsive ---- */
 @media (max-width: 1000px) {

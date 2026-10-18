@@ -1,41 +1,52 @@
 import { useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const SELECTOR = '.reveal, .reveal-left, .reveal-right, .reveal-scale, .fade-up';
 
-// Scroll reveals via GSAP ScrollTrigger.batch — items in the same row animate
-// together with a small stagger, once, then settle. Reduced-motion users get the
-// final state instantly (no motion). Each page calls this hook; re-runs on deps.
+// Scroll reveals: add `.visible` once an element's top enters the viewport (CSS
+// runs the eased transition). Position-based and checked on scroll via rAF, so
+// it can't be skipped by a fast scroll the way IntersectionObserver can.
+// Reduced-motion users get the final state immediately. Tears down once done.
 export const useScrollReveal = (deps = []) => {
   useEffect(() => {
-    const els = gsap.utils.toArray(SELECTOR);
-    if (!els.length) return;
+    let pending = Array.from(document.querySelectorAll(SELECTOR));
+    if (!pending.length) return;
 
-    const mm = gsap.matchMedia();
+    const reduce =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      pending.forEach((el) => el.classList.add('visible'));
+      return;
+    }
 
-    mm.add('(prefers-reduced-motion: reduce)', () => {
-      gsap.set(els, { clearProps: 'all', opacity: 1, x: 0, y: 0, scale: 1 });
-    });
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(reveal);
+    };
+    const teardown = () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
 
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const triggers = ScrollTrigger.batch(SELECTOR, {
-        start: 'top 90%',
-        once: true,
-        onEnter: (batch) =>
-          gsap.to(batch, {
-            opacity: 1, x: 0, y: 0, scale: 1,
-            duration: 0.7, ease: 'power3.out', stagger: 0.08, overwrite: true,
-          }),
+    function reveal() {
+      ticking = false;
+      const trigger = window.innerHeight * 0.9;
+      pending = pending.filter((el) => {
+        if (el.getBoundingClientRect().top < trigger) {
+          el.classList.add('visible');
+          return false;
+        }
+        return true;
       });
-      // reveal anything already in view on load
-      ScrollTrigger.refresh();
-      return () => triggers.forEach((t) => t.kill());
-    });
+      if (!pending.length) teardown();
+    }
 
-    return () => mm.revert();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    reveal(); // reveal whatever is already in view on mount
+
+    return teardown;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };

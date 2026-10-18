@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import WorkflowDemo from '../components/WorkflowDemo';
+import ChatbotDemo from '../components/ChatbotDemo';
 import {
   ArrowRight, Zap, Target, Database, Bot,
   MessageCircle, ShoppingCart, BellRing, Calendar, UserCheck, Inbox,
@@ -190,8 +192,44 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ───────── See it work: workflow + AI chatbot ───────── */}
+      <section className="section bg-navy on-dark">
+        <div className="container">
+          <div className="reveal" style={{ maxWidth: '640px', marginBottom: '44px' }}>
+            <span className="kicker">See it work</span>
+            <h2 className="heading-lg text-white">Watch a lead turn into a booking.</h2>
+            <p className="body-lg" style={{ marginBottom: 0 }}>
+              No dashboards to learn, no new app for your team. The automation runs in the background — this is the whole journey, start to finish.
+            </p>
+          </div>
+
+          <WorkflowDemo />
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,430px)', gap: '48px', alignItems: 'center', marginTop: '64px' }} className="hero-grid">
+            <div className="reveal-left">
+              <span className="kicker">The AI, in the open</span>
+              <h3 className="heading-md text-white" style={{ marginBottom: '14px' }}>Your receptionist that never sleeps — right inside WhatsApp.</h3>
+              <p style={{ color: 'var(--mist)', marginBottom: '22px' }}>
+                It answers the real questions, qualifies on budget and intent, and books straight into your calendar. When a lead is hot or a question is tricky, it hands off to a human — mid-conversation.
+              </p>
+              <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '26px' }}>
+                {['Replies in seconds, 24/7 — even over weekends and load-shedding', 'Qualifies and books without a human in the loop', 'POPIA-compliant, hosted in South Africa'].map((t) => (
+                  <li key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', color: 'var(--mist)' }}>
+                    <span style={{ color: 'var(--flow)', flex: 'none', marginTop: '2px' }}>✓</span> {t}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/services" className="btn btn-primary">Explore AI agents <ArrowRight size={18} /></Link>
+            </div>
+            <div className="reveal-right" style={{ justifySelf: 'center' }}>
+              <ChatbotDemo />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ───────── The leak, made literal ───────── */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="container">
           <div className="reveal" style={{ maxWidth: '640px', marginBottom: '44px' }}>
             <span className="kicker">Real results, 30 days</span>
