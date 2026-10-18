@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { gsap } from 'gsap';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import {
   ArrowRight, Zap, Target, Database, Bot,
@@ -55,6 +56,23 @@ const stack = ['Claude AI', 'n8n', 'Zapier', 'WhatsApp API', 'HubSpot', 'Airtabl
 
 const Home = () => {
   useScrollReveal();
+
+  // Hero load timeline (one orchestrated moment): the hero content sequences in,
+  // then the pipeline rows trickle like live events. Reduced-motion → shown at rest.
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      tl.fromTo('.hero-in', { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.09 })
+        .fromTo('.pipe-row', { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.5 }, '-=0.15');
+    });
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set('.hero-in, .pipe-row', { opacity: 1, y: 0 });
+    });
+    return () => mm.revert();
+  }, []);
 
   return (
     <div>

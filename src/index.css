@@ -341,8 +341,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   display: flex; align-items: center; gap: 14px;
   padding: 13px 4px;
   opacity: 0;
-  transform: translateY(8px);
-  animation: pipeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .pipe-row .node {
   width: 34px; height: 34px; border-radius: 10px; flex: none;
@@ -354,19 +352,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .pipe-row .stamp { margin-left: auto; font-family: var(--mono); font-size: 0.78rem; color: var(--flow); }
 .pipe-row.leak .node { color: var(--leak); }
 .pipe-row.leak .stamp { color: var(--leak); }
-.pipe-row:nth-child(2) { animation-delay: 0.2s; }
-.pipe-row:nth-child(3) { animation-delay: 0.9s; }
-.pipe-row:nth-child(4) { animation-delay: 1.6s; }
-.pipe-row:nth-child(5) { animation-delay: 2.3s; }
-@keyframes pipeIn { to { opacity: 1; transform: translateY(0); } }
 
-/* ---- Hero entrance (one orchestrated moment) ---- */
-@keyframes heroRise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-.hero-in { opacity: 0; animation: heroRise 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-.hero-in.d1 { animation-delay: 0.1s; }
-.hero-in.d2 { animation-delay: 0.22s; }
-.hero-in.d3 { animation-delay: 0.34s; }
-.hero-in.d4 { animation-delay: 0.46s; }
+/* ---- Hero entrance ----
+   Initial hidden state only; the GSAP timeline in Home.jsx sequences these in.
+   (d1–d4 are kept as class hooks but ordering is handled by the timeline.) */
+.hero-in { opacity: 0; }
 
 /* Hero ambient glow. */
 @keyframes glowDrift {
@@ -375,23 +365,15 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 }
 .hero-glow { animation: glowDrift 18s ease-in-out infinite; }
 
-/* ---- Scroll reveals (used sparingly; reduced-motion safe) ---- */
-.fade-up, .reveal, .reveal-left, .reveal-right, .reveal-scale {
-  opacity: 0;
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.fade-up, .reveal { transform: translateY(28px); }
-.reveal-left { transform: translateX(-36px); }
-.reveal-right { transform: translateX(36px); }
-.reveal-scale { transform: scale(0.95); }
-.fade-up.visible, .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible {
-  opacity: 1; transform: none;
-}
-.delay-100 { transition-delay: 100ms; }
-.delay-200 { transition-delay: 200ms; }
-.delay-300 { transition-delay: 300ms; }
-.delay-400 { transition-delay: 400ms; }
-.delay-500 { transition-delay: 500ms; }
+/* ---- Scroll reveals ----
+   Initial hidden state only; GSAP ScrollTrigger (useScrollReveal) animates
+   these in and owns the timing. Reduced-motion is handled in the hook + below. */
+.fade-up, .reveal { opacity: 0; transform: translateY(28px); }
+.reveal-left { opacity: 0; transform: translateX(-36px); }
+.reveal-right { opacity: 0; transform: translateX(36px); }
+.reveal-scale { opacity: 0; transform: scale(0.95); }
+/* legacy delay classes kept as harmless no-ops (stagger is handled by GSAP) */
+.delay-100, .delay-200, .delay-300, .delay-400, .delay-500 {}
 
 /* ---- Infinite logo marquee ---- */
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
