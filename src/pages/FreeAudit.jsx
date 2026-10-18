@@ -30,7 +30,10 @@ const FreeAudit = () => {
     setLoading(true);
     
     try {
-      const response = await fetch('http://localhost:3000/api/audit', {
+      // Relative path hits the Vercel serverless function (/api/audit) in
+      // production. Override with VITE_AUDIT_ENDPOINT for local dev if needed.
+      const endpoint = import.meta.env.VITE_AUDIT_ENDPOINT || '/api/audit';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

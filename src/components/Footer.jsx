@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Mail, MessageCircle } from 'lucide-react';
+import { CONTACT_EMAIL, whatsappLink } from '../config';
 
 const Footer = () => {
   return (
@@ -9,10 +11,13 @@ const Footer = () => {
           <div>
             <h3 className="heading-sm text-white">Kengan<span className="text-baby-blue">Automation</span></h3>
             <p style={{ opacity: 0.8, marginBottom: '20px' }}>We Fix The Leak. You Keep The Revenue.</p>
-            <div style={{ display: 'flex', gap: '15px' }}>
-              <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>in</div>
-              <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ig</div>
-              <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>tk</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '10px', opacity: 0.85 }}>
+                <MessageCircle size={18} className="text-baby-blue" /> 063 519 0807
+              </a>
+              <a href={`mailto:${CONTACT_EMAIL}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', opacity: 0.85 }}>
+                <Mail size={18} className="text-baby-blue" /> {CONTACT_EMAIL}
+              </a>
             </div>
           </div>
           

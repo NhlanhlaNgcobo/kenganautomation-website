@@ -236,21 +236,150 @@ ul {
   color: var(--color-secondary);
 }
 
-/* Animations */
-.fade-up {
+/* ───────────────────────── Animations ─────────────────────────
+   Scroll reveals. Each becomes visible when `.visible` is added by
+   useScrollReveal. All use transform/opacity only (GPU-friendly). */
+.fade-up,
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
 }
 
-.fade-up.visible {
+.fade-up,
+.reveal        { transform: translateY(32px); }
+.reveal-left   { transform: translateX(-40px); }
+.reveal-right  { transform: translateX(40px); }
+.reveal-scale  { transform: scale(0.94); }
+
+.fade-up.visible,
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible,
+.reveal-scale.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+  will-change: auto;
 }
 
 .delay-100 { transition-delay: 100ms; }
 .delay-200 { transition-delay: 200ms; }
 .delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* Hero entrance — plays on load (no observer). */
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-in { opacity: 0; animation: heroRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.hero-in.d1 { animation-delay: 0.12s; }
+.hero-in.d2 { animation-delay: 0.26s; }
+.hero-in.d3 { animation-delay: 0.4s; }
+
+/* Slow drifting radial glow behind the hero. */
+@keyframes glowDrift {
+  0%   { transform: translate3d(-6%, -4%, 0) scale(1); }
+  50%  { transform: translate3d(6%, 4%, 0) scale(1.12); }
+  100% { transform: translate3d(-6%, -4%, 0) scale(1); }
+}
+.hero-glow { animation: glowDrift 16s ease-in-out infinite; }
+
+/* Card lift + sheen on hover (builds on the base .card:hover). */
+.card { position: relative; overflow: hidden; }
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(137, 196, 244, 0.18), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+.card:hover::after { left: 140%; }
+
+/* Lift utility for arbitrary elements. */
+.lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.lift:hover { transform: translateY(-4px); }
+
+/* Button shine on hover. */
+.btn { position: relative; overflow: hidden; }
+.btn > * { position: relative; z-index: 1; }
+.btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:hover::before { transform: translateX(120%); }
+
+/* Animated underline for nav links. */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 100%; height: 2px;
+  background: var(--color-accent-1);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after { transform: scaleX(1); }
+
+/* Infinite logo marquee (tech stack). */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  gap: 60px;
+  animation: marquee 26s linear infinite;
+}
+.marquee:hover .marquee__track { animation-play-state: paused; }
+
+/* Live pulse dot. */
+@keyframes pulseDot {
+  0%   { box-shadow: 0 0 0 0 rgba(137, 196, 244, 0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(137, 196, 244, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(137, 196, 244, 0); }
+}
+.pulse-dot { animation: pulseDot 2s ease-out infinite; }
+
+/* Floating WhatsApp button gentle bob + ring. */
+@keyframes waBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.wa-float { animation: waBob 3.2s ease-in-out infinite; }
+
+/* Respect users who ask for less motion: disable all of the above. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .fade-up, .reveal, .reveal-left, .reveal-right, .reveal-scale,
+  .hero-in { opacity: 1 !important; transform: none !important; }
+}
 
 /* Responsive */
 @media (max-width: 768px) {

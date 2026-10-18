@@ -26,4 +26,12 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    // Node-side files: the Express dev server, Vercel serverless functions,
+    // config and test scripts. These run in Node, not the browser.
+    files: ['server.js', 'api/**/*.js', '*.config.js', 'test_webhook.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ])

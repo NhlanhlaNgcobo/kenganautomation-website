@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { whatsappLink } from './config';
 
 // Components
 import Navbar from './components/Navbar';
@@ -25,24 +26,26 @@ const ScrollToTop = () => {
 
 // Cookie Banner Component
 const CookieBanner = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const consent = localStorage.getItem('cookieConsent');
-    if (!consent) {
-      setIsVisible(true);
+  // Decide visibility once, from storage, during init — wrapped for private mode.
+  const [isVisible, setIsVisible] = useState(() => {
+    try {
+      return !localStorage.getItem('cookieConsent');
+    } catch {
+      return true;
     }
-  }, []);
+  });
 
-  const acceptCookies = () => {
-    localStorage.setItem('cookieConsent', 'true');
+  const setConsent = (value) => {
+    try {
+      localStorage.setItem('cookieConsent', value);
+    } catch {
+      // storage blocked (private mode) — just dismiss for this session
+    }
     setIsVisible(false);
   };
 
-  const declineCookies = () => {
-    localStorage.setItem('cookieConsent', 'false');
-    setIsVisible(false);
-  };
+  const acceptCookies = () => setConsent('true');
+  const declineCookies = () => setConsent('false');
 
   if (!isVisible) return null;
 
@@ -81,8 +84,12 @@ const CookieBanner = () => {
 // Floating WhatsApp Button
 const WhatsAppFloat = () => {
   return (
-    <a 
-      href="#" 
+    <a
+      href={whatsappLink()}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with KenganAutomation on WhatsApp"
+      className="wa-float"
       style={{
         position: 'fixed',
         bottom: '30px',
@@ -94,7 +101,7 @@ const WhatsAppFloat = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+        boxShadow: '0 6px 20px rgba(37, 211, 102, 0.4)',
         zIndex: 999,
         transition: 'transform 0.3s ease'
       }}

@@ -1,6 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { Zap, Mail, Users, Clock, MapPin, MessageSquare, Calendar, Settings } from 'lucide-react';
+import { Zap, Mail, Users, Clock, MapPin, MessageSquare, Calendar, Settings, MessageCircle, ShoppingCart, BellRing, ArrowRight } from 'lucide-react';
+
+// Pricing is tailored per business, so every service points to a quote request
+// instead of a fixed price.
+const QuoteChip = () => (
+  <Link
+    to="/free-audit"
+    style={{
+      display: 'inline-flex', alignItems: 'center', gap: '6px',
+      background: 'var(--color-bg-light)', padding: '12px 16px', borderRadius: '8px',
+      fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--color-accent-1)',
+    }}
+  >
+    Custom quote — priced to your needs <ArrowRight size={16} />
+  </Link>
+);
 
 const Services = () => {
   useScrollReveal();
@@ -12,6 +28,13 @@ const Services = () => {
         <p className="body-lg text-navy" style={{ maxWidth: '800px', margin: '0 auto', color: 'var(--color-secondary)', opacity: 0.8 }}>
           KenganAutomation builds end-to-end automation workflows using n8n, Zapier, and Claude AI — hosted on South African servers for full POPIA compliance.
         </p>
+        <p className="text-navy" style={{ maxWidth: '700px', margin: '18px auto 0', color: 'var(--color-secondary)', opacity: 0.7, fontSize: '1rem' }}>
+          Every build is scoped and priced to your business — there's no one-size-fits-all package.
+          Tell us what you need and we'll put together a tailored quote.
+        </p>
+        <div style={{ marginTop: '28px' }}>
+          <Link to="/free-audit" className="btn btn-primary"><span>Request a Quote <ArrowRight size={18} style={{ verticalAlign: 'middle' }} /></span></Link>
+        </div>
       </div>
 
       <section className="section bg-light">
@@ -27,9 +50,7 @@ const Services = () => {
                 <li>• Integrates with Property24, Facebook Lead Ads, Typeform, Tally, Google Ads.</li>
                 <li>• Immediate automated acknowledgment and qualification.</li>
               </ul>
-              <div style={{ background: 'var(--color-bg-light)', padding: '15px', borderRadius: '8px', fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--color-accent-1)' }}>
-                Setup: R10,000–R15,000 | Retainer: R3,000–R4,000/month
-              </div>
+              <QuoteChip />
             </div>
 
             <div className="card fade-up delay-200">
@@ -70,6 +91,39 @@ const Services = () => {
                 <li>• Instant, accurate assignment.</li>
                 <li>• Ideal for franchise groups and multi-location agencies.</li>
               </ul>
+            </div>
+
+            <div className="card fade-up delay-300">
+              <MessageCircle size={32} className="text-baby-blue" style={{ marginBottom: '15px' }} />
+              <h3 className="heading-sm text-navy">WhatsApp AI Chatbot &amp; Receptionist</h3>
+              <p style={{ opacity: 0.8, marginBottom: '20px' }}>A Claude-powered assistant on your WhatsApp Business line that answers, qualifies and books 24/7.</p>
+              <ul style={{ opacity: 0.8, marginBottom: '20px', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <li>• Answers FAQs, pricing and availability instantly.</li>
+                <li>• Hands off to a human the moment a lead is hot.</li>
+              </ul>
+              <QuoteChip />
+            </div>
+
+            <div className="card fade-up delay-100">
+              <ShoppingCart size={32} className="text-baby-blue" style={{ marginBottom: '15px' }} />
+              <h3 className="heading-sm text-navy">Abandoned Cart Recovery</h3>
+              <p style={{ opacity: 0.8, marginBottom: '20px' }}>Shopify/WooCommerce webhook → WhatsApp sequence that recovers checkouts email never reaches.</p>
+              <ul style={{ opacity: 0.8, marginBottom: '20px', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <li>• Product photo + checkout link in 45 minutes, discount nudge at 24 hours.</li>
+                <li>• Replaces pricey email tools — one client recovered R58k/month.</li>
+              </ul>
+              <QuoteChip />
+            </div>
+
+            <div className="card fade-up delay-200">
+              <BellRing size={32} className="text-baby-blue" style={{ marginBottom: '15px' }} />
+              <h3 className="heading-sm text-navy">Reminders &amp; Invoice / Payment Follow-Up</h3>
+              <p style={{ opacity: 0.8, marginBottom: '20px' }}>Automated appointment reminders and polite, persistent invoice chasing until the bill is settled.</p>
+              <ul style={{ opacity: 0.8, marginBottom: '20px', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <li>• 48-hour and 2-hour reminders cut no-shows (one practice: 31% → 12%).</li>
+                <li>• Overdue-invoice sequences on WhatsApp &amp; email, synced to your accounting tool.</li>
+              </ul>
+              <QuoteChip />
             </div>
           </div>
         </div>

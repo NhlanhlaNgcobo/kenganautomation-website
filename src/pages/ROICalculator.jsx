@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { Calculator, AlertTriangle, TrendingUp, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -12,38 +12,32 @@ const ROICalculator = () => {
   const [dealValue, setDealValue] = useState(5000);
   const [adSpend, setAdSpend] = useState(10000);
 
-  const [lostLeads, setLostLeads] = useState(0);
-  const [lostRevenue, setLostRevenue] = useState(0);
-  const [newRevenue, setNewRevenue] = useState(0);
-  const [roiX, setRoiX] = useState(0);
-
-  useEffect(() => {
-    // Basic heuristics for calculator logic based on industry averages
-    // If response time is > 1 hour, conversion drops drastically
+  // Derived during render from the inputs — no effect, no cascading renders.
+  const { lostLeads, lostRevenue, newRevenue, roiX } = useMemo(() => {
+    // Basic heuristics based on industry averages: if response time is > 1 hour,
+    // conversion drops drastically.
     const responsePenalty = responseTime > 1 ? Math.min((responseTime * 0.05), 0.5) : 0;
-    
+
     const leadsActuallyContacted = Math.floor(leads * (1 - responsePenalty));
     const leadsLostNum = leads - leadsActuallyContacted;
-    
+
     const currentRevenue = leadsActuallyContacted * (closeRate / 100) * dealValue;
     const lostRev = leadsLostNum * (closeRate / 100) * dealValue;
-    
-    // Automation projection: response time < 60s, which bumps close rate by ~30% relatively
+
+    // Automation projection: response time < 60s bumps close rate ~30% relatively.
     const automatedCloseRate = Math.min((closeRate * 1.3), 100);
     const projectedRevenue = leads * (automatedCloseRate / 100) * dealValue;
-    
-    // Average Kengan retainer assumed to be R4000
-    const retainer = 4000;
-    
+
+    const retainer = 4000; // average Kengan retainer
     const uplift = projectedRevenue - currentRevenue;
-    const calculatedRoi = uplift > 0 ? Math.floor(uplift / retainer) : 0;
 
-    setLostLeads(leadsLostNum);
-    setLostRevenue(lostRev);
-    setNewRevenue(projectedRevenue);
-    setRoiX(calculatedRoi);
-
-  }, [leads, responseTime, closeRate, dealValue, adSpend]);
+    return {
+      lostLeads: leadsLostNum,
+      lostRevenue: lostRev,
+      newRevenue: projectedRevenue,
+      roiX: uplift > 0 ? Math.floor(uplift / retainer) : 0,
+    };
+  }, [leads, responseTime, closeRate, dealValue]);
 
   return (
     <div style={{ paddingTop: '100px' }}>
