@@ -158,7 +158,7 @@ const Services = () => {
             </div>
           </div>
 
-          <div className="fade-up delay-200 text-center" style={{ padding: '40px', border: '1px solid var(--color-accent-1)', borderRadius: '12px', background: 'rgba(27, 58, 107, 0.3)' }}>
+          <div className="fade-up delay-200 text-center" style={{ padding: '40px', border: '1px solid var(--line-ink)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.04)' }}>
             <h3 className="heading-sm text-baby-blue" style={{ marginBottom: '20px' }}>How It Works</h3>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '15px', fontWeight: 'bold' }}>
               <span style={{ padding: '10px 20px', background: 'rgba(255,255,255,0.1)', borderRadius: '30px' }}>User chats on website</span>

@@ -104,14 +104,14 @@ const ROICalculator = () => {
 
             {/* Outputs */}
             <div className="flex flex-col gap-4">
-              <div className="card fade-up delay-200" style={{ background: 'rgba(255, 59, 48, 0.05)', borderColor: 'rgb(255, 59, 48)', borderLeftWidth: '4px', borderTopWidth: '0' }}>
+              <div className="card fade-up delay-200" style={{ background: 'var(--leak-soft)', borderColor: 'var(--leak)', borderLeftWidth: '4px', borderTopWidth: '0' }}>
                 <div style={{ display: 'flex', gap: '15px' }}>
-                  <AlertTriangle color="rgb(255, 59, 48)" />
+                  <AlertTriangle color="var(--leak)" />
                   <div>
-                    <p style={{ color: 'rgb(255, 59, 48)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '5px' }}>THE LEAK</p>
+                    <p style={{ color: 'var(--leak)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '5px' }}>THE LEAK</p>
                     <h3 className="heading-md" style={{ color: 'var(--color-navy)', margin: '0' }}>{lostLeads}</h3>
                     <p style={{ opacity: 0.8 }}>Estimated leads lost per month</p>
-                    <h4 className="heading-sm mt-4" style={{ marginTop: '10px', color: 'rgb(255, 59, 48)' }}>R{Math.floor(lostRevenue).toLocaleString()}</h4>
+                    <h4 className="heading-sm mt-4" style={{ marginTop: '10px', color: 'var(--leak)' }}>R{Math.floor(lostRevenue).toLocaleString()}</h4>
                     <p style={{ opacity: 0.8, fontSize: '0.9rem' }}>Revenue lost monthly</p>
                   </div>
                 </div>

@@ -110,7 +110,7 @@ const CaseStudies = () => {
                   padding: '12px 24px',
                   borderRadius: '30px',
                   border: 'none',
-                  background: activeTab === idx ? 'var(--color-secondary)' : '#E0E7FF',
+                  background: activeTab === idx ? 'var(--color-secondary)' : 'var(--paper-2)',
                   color: activeTab === idx ? '#FFF' : 'var(--color-secondary)',
                   fontWeight: 'bold',
                   cursor: 'pointer',
@@ -161,7 +161,7 @@ const CaseStudies = () => {
                     borderRadius: '30px', 
                     fontSize: '0.85rem', 
                     fontWeight: 'bold',
-                    boxShadow: '0 4px 12px rgba(137, 196, 244, 0.3)'
+                    boxShadow: '0 4px 12px rgba(23, 184, 119, 0.35)'
                   }}>
                     {cases[activeTab].industry}
                   </span>
@@ -202,7 +202,7 @@ const CaseStudies = () => {
                     </thead>
                     <tbody>
                       {cases[activeTab].metrics.map((m, i) => (
-                        <tr key={i} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)', backgroundColor: m.highlight ? 'rgba(137, 196, 244, 0.1)' : 'transparent' }}>
+                        <tr key={i} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)', backgroundColor: m.highlight ? 'rgba(23, 184, 119, 0.1)' : 'transparent' }}>
                           <td style={{ padding: '15px 12px', fontWeight: '500' }}>{m.label}</td>
                           <td style={{ padding: '15px 12px', opacity: 0.7 }}>{m.before}</td>
                           <td style={{ padding: '15px 12px', fontWeight: 'bold', color: 'var(--color-accent-1)' }}>{m.after}</td>

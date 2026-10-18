@@ -24,6 +24,7 @@ const Navbar = () => {
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="container nav-container">
         <Link to="/" className="logo">
+          <span className="logo-mark pulse-dot" aria-hidden="true"></span>
           Kengan<span>Automation</span>
         </Link>
         
