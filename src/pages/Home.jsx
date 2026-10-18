@@ -4,9 +4,11 @@ import { gsap } from 'gsap';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import WorkflowDemo from '../components/WorkflowDemo';
 import ChatbotDemo from '../components/ChatbotDemo';
+import Hero3D from '../components/Hero3D';
+import Tilt from '../components/Tilt';
 import {
-  ArrowRight, Zap, Target, Database, Bot,
-  MessageCircle, ShoppingCart, BellRing, Calendar, UserCheck, Inbox,
+  ArrowRight, Zap, Bot, MessageCircle, Receipt, CalendarClock,
+  BarChart3, Package, Calendar, UserCheck, Inbox,
 } from 'lucide-react';
 
 const prefersReducedMotion = () =>
@@ -46,12 +48,12 @@ const Counter = ({ end, duration = 1600, suffix = '', prefix = '' }) => {
 };
 
 const services = [
-  { icon: Zap, title: 'Speed to Lead', body: 'Every new enquiry gets a personal WhatsApp reply in under 60 seconds — before a competitor even opens their inbox.' },
-  { icon: Target, title: 'Lead Nurture Sequences', body: 'Multi-touch follow-ups that run for 14 days on autopilot, so the leads who didn’t buy the first time still come back.' },
-  { icon: Database, title: 'Database Reactivation', body: 'Turn a dead spreadsheet of old contacts into booked revenue with a timed WhatsApp campaign.' },
-  { icon: MessageCircle, title: 'WhatsApp AI Chatbot', body: 'A Claude-powered receptionist that answers, qualifies and books 24/7 — right where South Africa already chats.' },
-  { icon: ShoppingCart, title: 'Abandoned Cart Recovery', body: 'Win back checkout drop-offs with WhatsApp nudges that reach people email never will.' },
-  { icon: BellRing, title: 'Reminders & Payment Follow-Up', body: 'Cut no-shows with appointment reminders, and chase unpaid invoices automatically until they settle.' },
+  { icon: MessageCircle, title: 'WhatsApp AI Chatbot', body: 'A 24/7 receptionist that answers, qualifies and books on WhatsApp — where 96% of South Africans already are.' },
+  { icon: Receipt, title: 'Invoicing & Payment Chasing', body: 'Auto-send invoices and chase late payers until they settle. With 46% of SA firms paid late, it’s the fastest money you’ll recover.' },
+  { icon: CalendarClock, title: 'Appointment Reminders', body: 'Cut no-shows by up to half with automatic booking confirmations and 48-hour and 2-hour reminders.' },
+  { icon: Zap, title: 'Speed to Lead', body: 'Every new enquiry gets a personal reply in under 60 seconds — before a competitor even opens their inbox.' },
+  { icon: BarChart3, title: 'Reporting & Dashboards', body: 'Daily sales, cash-flow and ops numbers pulled together automatically and sent to your inbox or a live dashboard.' },
+  { icon: Package, title: 'Inventory & Stock Alerts', body: 'Low-stock and reorder alerts, supplier nudges and stock synced across your sales channels — no more stockouts.' },
 ];
 
 const stack = ['Claude AI', 'n8n', 'Zapier', 'WhatsApp API', 'HubSpot', 'Airtable', 'Calendly', 'Shopify'];
@@ -79,8 +81,9 @@ const Home = () => {
   return (
     <div>
       {/* ───────── Hero: live speed-to-lead pipeline ───────── */}
-      <section className="bg-navy on-dark" style={{ position: 'relative', overflow: 'hidden', paddingTop: '140px', paddingBottom: '90px' }}>
-        <div className="hero-glow" aria-hidden="true" style={{ position: 'absolute', top: '-10%', right: '-10%', width: '70%', height: '120%', opacity: 0.16, background: 'radial-gradient(circle at center, var(--flow) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <section className="bg-navy on-dark" style={{ position: 'relative', overflow: 'hidden', paddingTop: '130px', paddingBottom: '84px' }}>
+        <Hero3D />
+        <div className="hero-glow" aria-hidden="true" style={{ position: 'absolute', top: '-10%', right: '-10%', width: '70%', height: '120%', opacity: 0.12, background: 'radial-gradient(circle at center, var(--flow) 0%, transparent 65%)', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1.05fr) minmax(0,0.95fr)', gap: '56px', alignItems: 'center' }} className="hero-grid">
             <div>
@@ -101,7 +104,7 @@ const Home = () => {
             </div>
 
             {/* Live pipeline */}
-            <div className="hero-in d2" aria-hidden="true">
+            <Tilt className="hero-in d2" max={7} style={{ perspective: '900px' }}>
               <div className="pipeline">
                 <div className="pipe-head">
                   <span className="label" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
@@ -131,7 +134,7 @@ const Home = () => {
                   <span className="stamp">3m</span>
                 </div>
               </div>
-            </div>
+            </Tilt>
           </div>
         </div>
       </section>
@@ -159,8 +162,9 @@ const Home = () => {
       <section className="section bg-light">
         <div className="container">
           <div className="reveal" style={{ maxWidth: '640px', marginBottom: '56px' }}>
-            <span className="kicker">What we build</span>
-            <h2 className="heading-lg text-navy">Pipelines that capture, answer, and convert — without you lifting a finger.</h2>
+            <span className="kicker">What we automate</span>
+            <h2 className="heading-lg text-navy">The busywork that eats your week — handled while you run the business.</h2>
+            <p style={{ color: 'var(--stone)', marginTop: '12px' }}>From customer chats and invoices to reminders, reporting and stock — these are the automations South African businesses ask us for most.</p>
             <hr className="seam" style={{ marginTop: '22px', width: '120px' }} />
           </div>
 

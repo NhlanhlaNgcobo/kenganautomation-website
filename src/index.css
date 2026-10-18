@@ -105,12 +105,12 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .text-accent-2 { color: var(--flow); }
 .text-white { color: #FFFFFF; }
 
-.heading-xl { font-size: clamp(2.8rem, 6vw, 5rem); margin-bottom: 1.5rem; }
-.heading-lg { font-size: clamp(2.3rem, 4.2vw, 3.4rem); margin-bottom: 1.25rem; }
-.heading-md { font-size: clamp(1.7rem, 3vw, 2.3rem); margin-bottom: 1rem; }
-.heading-sm { font-size: clamp(1.2rem, 2vw, 1.4rem); margin-bottom: 0.75rem; letter-spacing: -0.01em; }
+.heading-xl { font-size: clamp(2.1rem, 4.2vw, 3.4rem); margin-bottom: 1.25rem; }
+.heading-lg { font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin-bottom: 1.1rem; }
+.heading-md { font-size: clamp(1.45rem, 2.4vw, 1.9rem); margin-bottom: 0.9rem; }
+.heading-sm { font-size: clamp(1.1rem, 1.7vw, 1.3rem); margin-bottom: 0.7rem; letter-spacing: -0.01em; }
 
-.body-lg { font-size: 1.2rem; margin-bottom: 2rem; color: var(--mist); line-height: 1.7; }
+.body-lg { font-size: 1.08rem; margin-bottom: 1.8rem; color: var(--mist); line-height: 1.65; }
 
 /* Eyebrow — sentence case, tied to the conduit device (not tracked all-caps). */
 .kicker {
@@ -135,6 +135,16 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 
 /* Telemetry numerals — mono, used only for live/data figures. */
 .telemetry { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+/* Pill chip (process flows on dark). */
+.chip {
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line-ink);
+  border-radius: 999px;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
 
 /* ---- Buttons ---- */
 .btn {
@@ -322,6 +332,12 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   100% { box-shadow: 0 0 0 0 rgba(23, 184, 119, 0); }
 }
 .pulse-dot { animation: pulseRing 2.2s ease-out infinite; }
+
+/* ---- Ambient 3D network behind the hero ---- */
+.hero3d { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.9; }
+
+/* ---- Pointer 3D tilt wrapper ---- */
+.tilt { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); transform-style: preserve-3d; will-change: transform; }
 
 /* ---- Hero pipeline card (speed-to-lead, live) ---- */
 .pipeline {
